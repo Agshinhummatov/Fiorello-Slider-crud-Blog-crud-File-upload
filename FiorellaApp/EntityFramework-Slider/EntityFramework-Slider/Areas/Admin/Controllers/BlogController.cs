@@ -239,15 +239,17 @@ namespace EntityFramework_Slider.Areas.Admin.Controllers
                     await blog.Photo.CopyToAsync(stream);     // deyiremki yuxardaki yaratdiqimi   copy to ele streami  yeni icindeki path yeni fiziki olaraq lahiyemin icine www.rootun icine axi pathde yazmisam  kopyalayir atir ora upload edende sekli   // FileStream  bi neyinir fiziki olaraq kompyuterimde  file crate ede bilim deye bunu yazaliyam ve kansruktoru bizden data isdeyir  // FileMode ise ora ne edirikse tutaqki Createdise . crate yaziriq 
                 }
 
+                string dbPath = FileHelper.GetFilePath(_env.WebRootPath, "img", dbBlog.Image);
+
+                FileHelper.DeleteFile(dbPath);
+
                 blog.Image = fileName;
 
                 _context.Blogs.Update(blog);
 
                 await _context.SaveChangesAsync();
 
-                string dbPath = FileHelper.GetFilePath(_env.WebRootPath, "img", dbBlog.Image);
-
-                FileHelper.DeleteFile(dbPath);
+         
 
                 return RedirectToAction(nameof(Index));
 
